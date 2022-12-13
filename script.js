@@ -1,10 +1,4 @@
-// function showContent() {
-//     var temp = document.getElementsByTagName("template")[0];
-//     var clon = temp.content.cloneNode(true);
-//     document.body.appendChild(clon);
-// }
-
-const home = document.getElementById("logIn");
+const logIn = document.getElementById("logIn");
 const signUp = document.getElementById("signUp");
 const game = document.getElementById("app");
 const main = document.getElementById("main");
@@ -12,17 +6,16 @@ const main = document.getElementById("main");
 // var submit = document.getElementById("submit");
 // submit.addEventListener('click', checkIfCanLogIn);
 
-document.addEventListener('DOMContentLoaded',movePage('logIn'));
+document.addEventListener('DOMContentLoaded', movePage('logIn'));
 
-
-
-const signHere = document.getElementById("signHere");
+var signHere = document.getElementById("signHere");
 signHere.addEventListener('click', () => {
     deletePage(window.location.hash.substring(1));
     movePage('signUp');
     addSendEvent();
 });
 
+addSubmitButton();
 
 // let hash = window.location.hash.substring(1);
 // window.addEventListener('popstate',poppin);
@@ -35,9 +28,16 @@ signHere.addEventListener('click', () => {
 //     movePage(newhash);
 // }
 
-home.addEventListener("click", () => {
+logIn.addEventListener("click", () => {
     deletePage(window.location.hash.substring(1));
     movePage('logIn');
+    addSubmitButton();
+    var signHere = document.getElementById("signHere");
+    signHere.addEventListener('click', () => {
+        deletePage(window.location.hash.substring(1));
+        movePage('signUp');
+        addSendEvent();
+    });
     // var submit = document.getElementById("submit");
     // submit.addEventListener('click', checkIfCanLogIn);
 });
@@ -70,6 +70,7 @@ function movePage(page) {
         var temp = document.getElementsByTagName("template")[0];
         var clon = temp.content.cloneNode(true);
         main.appendChild(clon);
+        addSubmitButton()
     }
 }
 
@@ -87,35 +88,44 @@ function deletePage(page) {
     }
 }
 
-const users = [];
+// var users = [];
 
-function addUserToStorage() {
-    console.log('hhhhi');
-    let username = document.getElementById('username').value;
-    console.log(username);
-    let password = document.getElementById('password').value;
-    console.log(password);
-    users.push(new User(username, password));
-    console.log(users);
-    localStorage.setItem("usersArr", JSON.stringify(users));
-    // movePage('logIn');
-    // deletePage(window.location.hash.substring(1))
-}
+// function addUserToStorage() {
+//     let username = document.getElementById('username').value;
+//     let password = document.getElementById('password').value;
+//     users.push(new User(username, password));
+//     localStorage.setItem("usersArr", JSON.stringify(users));
+//     movePage('logIn');
+//     deletePage(window.location.hash.substring(1));
+// }
 
 function addSendEvent() {
-    console.log('hi');
     const send = document.getElementById('send');
-    console.log(send);
-    send.addEventListener('click',addUserToStorage);
+    // send.addEventListener('click', addUserToStorage);
+    send.addEventListener('click', DB.addUserToStorage)
 }
 
+function addSubmitButton() {
+    const submit = document.getElementById('submit');
+    submit.addEventListener('click', checkIfCanLogIn);
+    // submit.addEventListener('click', DB.addUserToStorage)
+}
 
 
 function checkIfCanLogIn() {
-    const usernameCheck = document.getElementById('username');
-    const passwordCheck = document.getElementById('password');
-
-    if (users.includes(usernameCheck.value)) {
+    const usernameCheck = document.getElementById('username').value;
+    const passwordCheck = document.getElementById('password').value;
+    users = JSON.parse(localStorage.getItem('usersArr'));
+    for (let i = 0; i < users.length; i++) {
+        console.log(users[i]);
+        if (users[i].userName === usernameCheck && users[i].passWord === passwordCheck) {
+            console.log('good');
+            deletePage(window.location.hash.substring(1));
+            movePage('app');
+        }
+        else {
+            console.log('You are not allowed to enter');
+        }
     }
 }
 
