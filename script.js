@@ -1,10 +1,7 @@
 const logIn = document.getElementById("logIn");
 const signUp = document.getElementById("signUp");
-const game = document.getElementById("app");
+const app = document.getElementById("app");
 const main = document.getElementById("main");
-
-// var submit = document.getElementById("submit");
-// submit.addEventListener('click', checkIfCanLogIn);
 
 document.addEventListener('DOMContentLoaded', movePage('logIn'));
 
@@ -48,7 +45,7 @@ signUp.addEventListener("click", () => {
     addSendEvent();
 });
 
-game.addEventListener("click", () => {
+app.addEventListener("click", () => {
     deletePage(window.location.hash.substring(1));
     movePage('app');
 });
@@ -60,6 +57,7 @@ function movePage(page) {
         var temp = document.getElementsByTagName("template")[2];
         var clon = temp.content.cloneNode(true);
         main.appendChild(clon);
+        addRegisterToEventButton();
     }
     else if (page === 'signUp') {
         var temp = document.getElementsByTagName("template")[1];
@@ -70,7 +68,7 @@ function movePage(page) {
         var temp = document.getElementsByTagName("template")[0];
         var clon = temp.content.cloneNode(true);
         main.appendChild(clon);
-        addSubmitButton()
+        addSubmitButton();
     }
 }
 
@@ -102,36 +100,56 @@ function deletePage(page) {
 function addSendEvent() {
     const send = document.getElementById('send');
     // send.addEventListener('click', addUserToStorage);
-    send.addEventListener('click', DB.addUserToStorage)
+    // send.addEventListener('click', DB.addUserToStorage)
+    send.addEventListener('click', () => DB.addUserToStorage);
+    send.addEventListener('click', () => DB.deleteUser('ooo'))
 }
 
 function addSubmitButton() {
     const submit = document.getElementById('submit');
-    submit.addEventListener('click', checkIfCanLogIn);
-    // submit.addEventListener('click', DB.addUserToStorage)
+    // submit.addEventListener('click', checkIfCanLogIn);
+    submit.addEventListener('click', DB.checkIfCanLogIn);
+
 }
 
-
-function checkIfCanLogIn() {
-    const usernameCheck = document.getElementById('username').value;
-    const passwordCheck = document.getElementById('password').value;
-    users = JSON.parse(localStorage.getItem('usersArr'));
-    for (let i = 0; i < users.length; i++) {
-        console.log(users[i]);
-        if (users[i].userName === usernameCheck && users[i].passWord === passwordCheck) {
-            console.log('good');
-            deletePage(window.location.hash.substring(1));
-            movePage('app');
+function addRegisterToEventButton() {
+    console.log('mo');
+    const eyalLi = document.getElementById('eyalLi');
+    eyalLi.addEventListener('click', () => {
+        console.log('hhhh');
+        if(document.getElementById('EyalGolan').style.display === 'block'){
+            document.getElementById('EyalGolan').style.display = 'none';
+        } else{
+            document.getElementById('EyalGolan').style.display = 'block';
         }
-        else {
-            console.log('You are not allowed to enter');
-        }
-    }
+    });
+    const registerToEventButton = document.getElementById('registerToEvent');
+    registerToEventButton.addEventListener('click',registerToEvent);
 }
+
+function registerToEvent(){
+    alert('you have registered');
+}
+// function checkIfCanLogIn() {
+//     const usernameCheck = document.getElementById('username').value;
+//     const passwordCheck = document.getElementById('password').value;
+//     users = JSON.parse(localStorage.getItem('usersArr'));
+//     for (let i = 0; i < users.length; i++) {
+//         console.log(users[i]);
+//         if (users[i].userName === usernameCheck && users[i].passWord === passwordCheck) {
+//             console.log('good');
+//             deletePage(window.location.hash.substring(1));
+//             movePage('app');
+//         }
+//         else {
+//             console.log('You are not allowed to enter');
+//         }
+//     }
+// }
 
 class User {
     constructor(userName, passWord) {
-        this.userName = userName
+        this.userName = userName;
         this.passWord = passWord;
     }
 }
