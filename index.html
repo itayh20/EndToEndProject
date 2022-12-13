@@ -1,1 +1,62 @@
-gsfdgfdg
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <ul>
+      <li><a id="logIn" href="#logIn" data-target="logIn">Home</a></li>
+      <li><a id="signUp" href="#signUp" data-target="signUp">SignUp</a></li>
+      <li><a id="app" href="#app" data-target="app">App</a></li>
+    </ul>
+
+    <main id="main"></main>
+
+    <template id="logInTemplate">
+      <div>
+        <h1>logIn</h1>
+        <form>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" />
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="username" />
+
+          <p>
+            <a id="signHere" href="#signUp">Sign Up Here</a>
+          </p>
+        </form>
+        <button id="submit">Submit</button>
+      </div>
+    </template>
+
+    <template id="signUp">
+      <div>
+        <h1>Sign up</h1>
+        <form>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" />
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" />
+        </form>
+        <button id="send">Send</button>
+      </div>
+    </template>
+
+
+    <template id="appTemplate">
+      <div>
+        <h1>App</h1>
+      </div>
+    </template>
+
+
+    <script src="script.js"></script>
+  </body>
+</html>
