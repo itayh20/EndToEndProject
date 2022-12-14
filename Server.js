@@ -2,9 +2,9 @@ class Server {
     fajax
     constructor() {
     }
-    serAction(){
+    serAction() {
         this.fajax = undefined;
-        if (this.fajax === undefined){
+        if (this.fajax === undefined) {
             console.log("nothing has been sent");
         }
         if (this.fajax === "get") {
@@ -22,32 +22,32 @@ class Server {
         if (this.fajax === "delete") {
             this.delete();
         }
-        else{
+        else {
             console.log("else");
         }
 
     }
     // get all the information from the DB
-    get(){
+    get() {
         return DB.users;
     }
     // get specific information from the DB
-    getSpecificInfo(specific = undefined){
+    getSpecificInfo(specific = undefined) {
         let arr = []
         if (specific === undefined) {
             console.log("nothing has been sent");
         }
-        if(specific === "user name"){
+        if (specific === "user name") {
             for (let i = 0; i < DB.users.length; i++) {
                 arr.push(DB.users[i].userName);
             }
         }
-        if(specific === "password"){
+        if (specific === "password") {
             for (let i = 0; i < DB.users.length; i++) {
                 arr.push(DB.users[i].passWord);
             }
         }
-        if(specific === "events"){
+        if (specific === "events") {
             for (let i = 0; i < DB.users.length; i++) {
                 arr.push(DB.users[i].events);
             }
@@ -55,36 +55,64 @@ class Server {
         return arr;
     }
     // add somthing to the BD
-    post(){
-
+    post() {
+        let username = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+        console.log(DB.users);
+        DB.users.push(new User(username, password));
+        localStorage.setItem("usersArr", JSON.stringify(DB.users));
+        movePage('logIn');
+        deletePage(window.location.hash.substring(1));
     }
     // update somthing in the DB
-    put(putUserName, putPassword, change){
-        let arrUsers = JSON.parse(localStorage.getItem('usersArr'));
-        console.log(arrUsers);
+    put(putUserName, putPassword, change, changeValue) {
         for (let i = 0; i < DB.users.length; i++) {
             if ((DB.users[i].userName === putUserName) &&
-             (DB.users[i].password === putPassword)) {
-                if (change === "user namme") {
-                    DB.users[i].userName = change; 
+                (DB.users[i].passWord === putPassword)) {
+                if (change === "user name") {
+                    DB.users[i].userName = changeValue;
+                } else if (change === "password") {
+                    DB.users[i].password = changeValue;
+                }
+                else if (change === "events") {
+                    DB.users[i].events = changeValue;
                 }
             }
 
         }
     }
     // delete somthing in the DB
-    delete(){
-
+    delete(putUserName, putPassword) {
+        for (var i = 0; i < DB.users.length; i++) {
+            if ((DB.users[i].userName === putUserName) &&
+                (DB.users[i].passWord === putPassword)) {
+                DB.users.splice(i, 1);
+            }
+        }
     }
 
-
-
-
-
-    
+    checkIfCanLogIn() {
+        let bool = false;
+        let num;
+        const usernameCheck = document.getElementById('username').value;
+        const passwordCheck = document.getElementById('password').value;
+        for (let i = 0; i < DB.users.length; i++) {
+            if (DB.users[i].userName === usernameCheck && DB.users[i].passWord === passwordCheck) {
+                bool = true;
+                num = i;
+                break;
+            }
+        }
+        if (bool) {
+            deletePage(window.location.hash.substring(1));
+            movePage('app', DB.users[num]);
+        } else {
+            alert('not')
+        }
+    }
 }
 
 const server = new Server();
-console.log(server.getSpecificInfo("user name"));
-// server.put();
-// console.log(DB.users[1])
+
+
+
