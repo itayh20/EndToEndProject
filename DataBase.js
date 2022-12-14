@@ -1,5 +1,5 @@
-localStorage.setItem('usersArr', JSON.stringify([]));
-localStorage.setItem('eventsArr', JSON.stringify([]));
+localStorage.setItem('usersArr', JSON.stringify([{userName:'o',passWord:'o'}]));
+localStorage.setItem('eventsArr', JSON.stringify(['Eyal']));
 
 class DataBase {
     users;

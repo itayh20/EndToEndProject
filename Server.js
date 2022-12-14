@@ -2,34 +2,39 @@ class Server {
     fajax
     constructor() {
     }
-    serAction() {
-        this.fajax = undefined;
-        if (this.fajax === undefined) {
-            console.log("nothing has been sent");
-        }
-        if (this.fajax === "get") {
-            this.get();
-        }
-        if (this.fajax === "getSpecificInfo") {
-            this.getSpecificInfo();
-        }
-        if (this.fajax === "post") {
-            this.post();
-        }
-        if (this.fajax === "put") {
-            this.put();
-        }
-        if (this.fajax === "delete") {
-            this.delete();
-        }
-        else {
-            console.log("else");
-        }
+    // serAction() {
+    //     this.fajax = undefined;
+    //     if (this.fajax === undefined) {
+    //         console.log("nothing has been sent");
+    //     }
+    //     if (this.fajax === "get") {
+    //         this.get();
+    //     }
+    //     if (this.fajax === "getSpecificInfo") {
+    //         this.getSpecificInfo();
+    //     }
+    //     if (this.fajax === "post") {
+    //         this.post();
+    //     }
+    //     if (this.fajax === "put") {
+    //         this.put();
+    //     }
+    //     if (this.fajax === "delete") {
+    //         this.delete();
+    //     }
+    //     else {
+    //         console.log("else");
+    //     }
 
-    }
+    // }
+
     // get all the information from the DB
-    get() {
-        return DB.users;
+    get(url) {
+        if (url === 'users') {
+            return DB.users;
+        } else {
+            return DB.events;
+        }
     }
     // get specific information from the DB
     getSpecificInfo(specific = undefined) {
@@ -54,33 +59,79 @@ class Server {
         }
         return arr;
     }
-    // add somthing to the BD
-    post() {
-        let username = document.getElementById('username').value;
-        let password = document.getElementById('password').value;
-        console.log(DB.users);
-        DB.users.push(new User(username, password));
-        localStorage.setItem("usersArr", JSON.stringify(DB.users));
-        movePage('logIn');
-        deletePage(window.location.hash.substring(1));
-    }
-    // update somthing in the DB
-    put(putUserName, putPassword, change, changeValue) {
-        for (let i = 0; i < DB.users.length; i++) {
-            if ((DB.users[i].userName === putUserName) &&
-                (DB.users[i].passWord === putPassword)) {
-                if (change === "user name") {
-                    DB.users[i].userName = changeValue;
-                } else if (change === "password") {
-                    DB.users[i].password = changeValue;
-                }
-                else if (change === "events") {
-                    DB.users[i].events = changeValue;
-                }
-            }
+    // add somthing to the DB
+    post(url) {
+        if (url === 'users') {
+            console.log(url);
+            let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+            // console.log(DB.users);
+            DB.users.push(new User(username, password));
+            localStorage.setItem("usersArr", JSON.stringify(DB.users));
+            movePage('logIn');
+            deletePage(window.location.hash.substring(1));
+        } else if (url === 'events') {
+            promt = prompt('Enter the event: ')
+            let listPart = document.createElement("li");
+            listPart.textContent = promt;
 
+            DB.events.push(promt);
+            let eventList = document.getElementById("eventList");
+            let buttonForReg = document.createElement("button");
+            buttonForReg.setAttribute("class", "hidden");
+            buttonForReg.textContent = 'register to event '
+            listPart.appendChild(buttonForReg);
+            eventList.appendChild(listPart);
+
+            listPart.addEventListener("click", showButton);
         }
     }
+    // update somthing in the DB
+    put(putUserName, putPassword, change, changeValue,url ) {
+        console.log('ll');
+        console.log("putUserName:",putUserName,"putPassword:", putPassword);
+        if (url === 'users') {
+            console.log('hi');
+            for (let i = 0; i < DB.users.length; i++) {
+                if ((DB.users[i].userName === putUserName) &&
+                    (DB.users[i].passWord === putPassword)) {
+                    if (change === "user name") {
+                        DB.users[i].userName = changeValue;
+
+                    } else if (change === "password") {
+                        DB.users[i].password = changeValue;
+                    }
+                }
+            }
+        } else if (url === 'events') {
+            for (let i = 0; i < DB.users.length; i++) {
+                if ((DB.users[i].userName === putUserName) &&
+                    (DB.users[i].passWord === putPassword)) {
+                    if (change === "events") {
+                        DB.users[i].events = changeValue;
+                    }
+                }
+            }
+        }
+
+
+    }
+
+
+    // for (let i = 0; i < DB.users.length; i++) {
+    //     if ((DB.users[i].userName === putUserName) &&
+    //         (DB.users[i].passWord === putPassword)) {
+    //         // if (change === "user name") {
+    //         //     DB.users[i].userName = changeValue;
+    //         } else if (change === "password") {
+    //             DB.users[i].password = changeValue;
+    //         }
+    //         else if (change === "events") {
+    //             DB.users[i].events = changeValue;
+    //         }
+    //     }
+
+
     // delete somthing in the DB
     delete(putUserName, putPassword) {
         for (var i = 0; i < DB.users.length; i++) {
@@ -113,6 +164,3 @@ class Server {
 }
 
 const server = new Server();
-
-
-
