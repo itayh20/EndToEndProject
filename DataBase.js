@@ -18,13 +18,6 @@ class DataBase {
         deletePage(window.location.hash.substring(1));
     }
 
-    // getUser(username) {
-    //     this.users = JSON.parse(localStorage.getItem('usersArr'));
-    //     this.index = this.users.findIndex(val => val.userName = username);
-    //     console.log(this.index);
-    //     return this.users[this.index];
-    // }
-
     deleteUser(username) {
         this.users = JSON.parse(localStorage.getItem('usersArr'));
         for (var i = 0; i < this.users.length; i++) {
@@ -44,10 +37,9 @@ class DataBase {
         const passwordCheck = document.getElementById('password').value;
         this.users = JSON.parse(localStorage.getItem('usersArr'));
         for (let i = 0; i < this.users.length; i++) {
-            // console.log(this.users[i]);
             if (this.users[i].userName === usernameCheck && this.users[i].passWord === passwordCheck) {
                 deletePage(window.location.hash.substring(1));
-                movePage('app');
+                movePage('app',this.users[i]);
             }
             else {
                 // console.log('You are not allowed to enter');

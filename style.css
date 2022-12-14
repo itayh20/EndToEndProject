@@ -2,6 +2,15 @@
     display: none;
 }
 
-#EyalGolan{
+/* #EyalGolan{
     display: none;
+} */
+
+.hidden{
+    display: none;
+}
+
+#eventsDiv{
+    margin-right: auto;
+    float:right ;
 }

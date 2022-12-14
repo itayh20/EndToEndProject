@@ -29,12 +29,12 @@ logIn.addEventListener("click", () => {
     deletePage(window.location.hash.substring(1));
     movePage('logIn');
     addSubmitButton();
-    var signHere = document.getElementById("signHere");
-    signHere.addEventListener('click', () => {
-        deletePage(window.location.hash.substring(1));
-        movePage('signUp');
-        addSendEvent();
-    });
+    // var signHere = document.getElementById("signHere");
+    // signHere.addEventListener('click', () => {
+    //     deletePage(window.location.hash.substring(1));
+    //     movePage('signUp');
+    //     addSendEvent();
+    // });
     // var submit = document.getElementById("submit");
     // submit.addEventListener('click', checkIfCanLogIn);
 });
@@ -52,12 +52,13 @@ app.addEventListener("click", () => {
 
 
 
-function movePage(page) {
+function movePage(page, user = 0) {
     if (page === 'app') {
         var temp = document.getElementsByTagName("template")[2];
         var clon = temp.content.cloneNode(true);
         main.appendChild(clon);
-        addRegisterToEventButton();
+        // addRegisterToEventButton();
+        addEventsToAppPage(user);
     }
     else if (page === 'signUp') {
         var temp = document.getElementsByTagName("template")[1];
@@ -101,7 +102,7 @@ function addSendEvent() {
     const send = document.getElementById('send');
     // send.addEventListener('click', addUserToStorage);
     // send.addEventListener('click', DB.addUserToStorage)
-    send.addEventListener('click', () => DB.addUserToStorage);
+    send.addEventListener('click', DB.addUserToStorage);
     send.addEventListener('click', () => DB.deleteUser('ooo'))
 }
 
@@ -112,24 +113,75 @@ function addSubmitButton() {
 
 }
 
-function addRegisterToEventButton() {
-    console.log('mo');
+// function addRegisterToEventButton() {
+//     console.log('mo');
+//     const eyalLi = document.getElementById('eyalLi');
+//     eyalLi.addEventListener('click', () => {
+//         console.log('hhhh');
+//         if (document.getElementById('EyalGolan').style.display === 'block') {
+//             document.getElementById('EyalGolan').style.display = 'none';
+//         } else {
+//             document.getElementById('EyalGolan').style.display = 'block';
+//         }
+//     });
+//     const registerToEventButton = document.getElementById('registerToEvent');
+//     registerToEventButton.addEventListener('click', registerToEvent);
+// }
+
+
+
+function addEventsToAppPage(user) {
     const eyalLi = document.getElementById('eyalLi');
+    const BeyonceLi = document.getElementById('BeyonceLi');
+    const duduTusaLi = document.getElementById('duduTusaLi');
+
     eyalLi.addEventListener('click', () => {
         console.log('hhhh');
-        if(document.getElementById('EyalGolan').style.display === 'block'){
+        if (document.getElementById('EyalGolan').style.display === 'block') {
             document.getElementById('EyalGolan').style.display = 'none';
-        } else{
+        } else {
             document.getElementById('EyalGolan').style.display = 'block';
         }
     });
-    const registerToEventButton = document.getElementById('registerToEvent');
-    registerToEventButton.addEventListener('click',registerToEvent);
+
+    BeyonceLi.addEventListener('click', () => {
+        console.log('hhhh');
+        if (document.getElementById('beyonce').style.display === 'block') {
+            document.getElementById('beyonce').style.display = 'none';
+        } else {
+            document.getElementById('beyonce').style.display = 'block';
+        }
+    });
+
+    duduTusaLi.addEventListener('click', () => {
+        console.log('hhhh');
+        if (document.getElementById('duduTusa').style.display === 'block') {
+            document.getElementById('duduTusa').style.display = 'none';
+        } else {
+            document.getElementById('duduTusa').style.display = 'block';
+        }
+    });
+
+    const btns = document.querySelectorAll('.registerToEvent');
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].addEventListener('click', () => registerToEvent(btns[i].getAttribute('data-target'), user));
+    }
+
 }
 
-function registerToEvent(){
-    alert('you have registered');
+function registerToEvent(name, user) {
+    const ul = document.getElementById('events');
+    const li = document.createElement('li');
+    li.textContent = name;
+    ul.appendChild(li);
+    console.log(user.events);
+    user.events.push(name);
+    console.log(user.events);
+    console.log(user);
 }
+
+
+
 // function checkIfCanLogIn() {
 //     const usernameCheck = document.getElementById('username').value;
 //     const passwordCheck = document.getElementById('password').value;
@@ -151,7 +203,10 @@ class User {
     constructor(userName, passWord) {
         this.userName = userName;
         this.passWord = passWord;
+        this.events = [];
+    }
+
+    addEvent(eventName) {
+        this.events.push(eventName);
     }
 }
-
-

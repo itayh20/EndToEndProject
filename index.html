@@ -52,14 +52,36 @@
     <template id="appTemplate">
       <div>
         <h1>App</h1>
+        <div id="eventsDiv">
+          <h2>Events: </h2>
+          <ul id="events"></ul>
+        </div>
+
         <ul>
-            <li><a id="eyalLi">Eyal Golan</a>
-                <div id="EyalGolan">
-                    <button id="registerToEvent">Register the event</button>
-                </div>
-            </li>
-            <li></li>
-            <li></li>
+          <li id="eyalLi">
+            Eyal Golan
+            <div id="EyalGolan" class="hidden">
+              <button class="registerToEvent" data-target="Eyal Golan">
+                Register the event
+              </button>
+            </div>
+          </li>
+          <li id="BeyonceLi">
+            Beyonce
+            <div id="beyonce" class="hidden">
+              <button class="registerToEvent" data-target="Beyonce">
+                Register the event
+              </button>
+            </div>
+          </li>
+          <li id="duduTusaLi">
+            Dudu Tusa
+            <div id="duduTusa" class="hidden">
+              <button class="registerToEvent" data-target="Dudu Tusa">
+                Register the event
+              </button>
+            </div>
+          </li>
         </ul>
       </div>
     </template>
@@ -67,5 +89,5 @@
     <script src="DataBase.js"></script>
     <script src="Server.js"></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
