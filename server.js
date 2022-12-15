@@ -5,7 +5,7 @@ class Server {
     fajax
     constructor() {
     }
-   
+
 
     // get all the information from the DB
     get(url) {
@@ -37,29 +37,27 @@ class Server {
                 arr.push(DB.users[i].events);
             }
         }
-        
+
 
         return arr;
     }
 
     // add somthing to the DB
-
     // ! you can't createe buttons here and display them
-    post(url,id) {
-        console.log(id)
+    post(url, id) {
+        // console.log(id)
         if (url === 'users') {
-            console.log(url);
-            let username = document.getElementById('username').value;
-            let password = document.getElementById('password').value;
-            DB.users.push(new User(username, password));
-            localStorage.setItem("usersArr", JSON.stringify(DB.users));
-            movePage('logIn');
-            deletePage(window.location.hash.substring(1));
+            // console.log(url);
+            // let username = document.getElementById('username').value;
+            // let password = document.getElementById('password').value;
+            // DB.users.push(new User(username, password));
+            // localStorage.setItem("usersArr", JSON.stringify(DB.users));
+            // movePage('logIn');
+            // deletePage(window.location.hash.substring(1));
         } else if (url === 'events') {
             promt = prompt('Enter the event: ')
             let listPart = document.createElement("li");
             listPart.textContent = promt;
-
             DB.events.push(promt);
             let eventList = document.getElementById("eventList");
             let buttonForReg = document.createElement("button");
@@ -73,8 +71,7 @@ class Server {
     }
 
     // update somthing in the DB
-    put(putUserName, putPassword, change, changeValue,url ) {
-        console.log("putUserName:",putUserName,"putPassword:", putPassword);
+    put(putUserName, putPassword, change, changeValue, url) {
         if (url === 'users') {
             console.log('hi');
             for (let i = 0; i < DB.users.length; i++) {
@@ -82,7 +79,6 @@ class Server {
                     (DB.users[i].passWord === putPassword)) {
                     if (change === "user name") {
                         DB.users[i].userName = changeValue;
-
                     } else if (change === "password") {
                         DB.users[i].password = changeValue;
                     }
@@ -98,10 +94,7 @@ class Server {
                 }
             }
         }
-
-
     }
-
 
     // for (let i = 0; i < DB.users.length; i++) {
     //     if ((DB.users[i].userName === putUserName) &&
