@@ -1,32 +1,11 @@
+// server can't create and display elements on screen
+// server connect with database
+
 class Server {
     fajax
     constructor() {
     }
-    // serAction() {
-    //     this.fajax = undefined;
-    //     if (this.fajax === undefined) {
-    //         console.log("nothing has been sent");
-    //     }
-    //     if (this.fajax === "get") {
-    //         this.get();
-    //     }
-    //     if (this.fajax === "getSpecificInfo") {
-    //         this.getSpecificInfo();
-    //     }
-    //     if (this.fajax === "post") {
-    //         this.post();
-    //     }
-    //     if (this.fajax === "put") {
-    //         this.put();
-    //     }
-    //     if (this.fajax === "delete") {
-    //         this.delete();
-    //     }
-    //     else {
-    //         console.log("else");
-    //     }
-
-    // }
+   
 
     // get all the information from the DB
     get(url) {
@@ -36,6 +15,7 @@ class Server {
             return DB.events;
         }
     }
+
     // get specific information from the DB
     getSpecificInfo(specific = undefined) {
         let arr = []
@@ -57,15 +37,20 @@ class Server {
                 arr.push(DB.users[i].events);
             }
         }
+        
+
         return arr;
     }
+
     // add somthing to the DB
-    post(url) {
+
+    // ! you can't createe buttons here and display them
+    post(url,id) {
+        console.log(id)
         if (url === 'users') {
             console.log(url);
             let username = document.getElementById('username').value;
             let password = document.getElementById('password').value;
-            // console.log(DB.users);
             DB.users.push(new User(username, password));
             localStorage.setItem("usersArr", JSON.stringify(DB.users));
             movePage('logIn');
@@ -86,9 +71,9 @@ class Server {
             listPart.addEventListener("click", showButton);
         }
     }
+
     // update somthing in the DB
     put(putUserName, putPassword, change, changeValue,url ) {
-        console.log('ll');
         console.log("putUserName:",putUserName,"putPassword:", putPassword);
         if (url === 'users') {
             console.log('hi');

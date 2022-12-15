@@ -1,0 +1,1 @@
+// function 2 lines get info from fajax and transfer it to server and return response from server

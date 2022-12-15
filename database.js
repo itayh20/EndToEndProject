@@ -1,3 +1,6 @@
+// use lcalStroage (getitem, setItem, removeitem)
+
+
 localStorage.setItem('usersArr', JSON.stringify([{userName:'o',passWord:'o'}]));
 localStorage.setItem('eventsArr', JSON.stringify(['Eyal']));
 
@@ -10,3 +13,4 @@ class DataBase {
 }
 
 const DB = new DataBase();
+

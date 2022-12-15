@@ -1,4 +1,4 @@
-class FAJAX {
+class Fajax {
     constructor() {
         this.onload = null;
     }
@@ -7,17 +7,19 @@ class FAJAX {
         this.method = method;
         this.url = url;
     }
-    send(sendUrl = null) {
+    send(id = null, value=null) {
+        console.log(id)
+        this.id = id;
         if (this.method === 'GET') {
             this.response = server.get(this.url);
             return this.onload();
 
         } else if (this.method === 'POST') {
-            this.response = server.post(this.url,sendUrl);
+            this.response = server.post(this.url,this.id);
             return this.onload();
 
         } else if (this.method === 'PUT') {
-            this.response = server.put();
+            this.response = server.put(this.id, this.value);
             return this.onload();
 
         } else if (this.method === 'DELETE') {
@@ -36,7 +38,7 @@ class FAJAX {
 // console.log(y);
 
 
-const example = new FAJAX();
+const example = new Fajax();
 example.onload = function () {
     // console.log(example.response);
 }

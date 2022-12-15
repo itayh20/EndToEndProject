@@ -1,3 +1,5 @@
+// choose templates from html, display them, get info from inputs and send with Fajax to server
+
 const logIn = document.getElementById("logIn");
 const signUp = document.getElementById("signUp");
 const app = document.getElementById("app");
@@ -44,7 +46,6 @@ app.addEventListener("click", () => {
 });
 
 
-
 function movePage(page, user = 0) {
     if (page === 'app') {
         var temp = document.getElementsByTagName("template")[2];
@@ -65,8 +66,6 @@ function movePage(page, user = 0) {
     }
 }
 
-
-
 function deletePage(page) {
     if (page === 'app') {
         main.removeChild(main.getElementsByTagName('div')[0]);
@@ -81,14 +80,13 @@ function deletePage(page) {
 
 function addSendEvent() {
     const send = document.getElementById('send');
-    // send.addEventListener('click', server.post);
     send.addEventListener('click', () => {
-        const xml = new FAJAX();
+        const xml = new Fajax();
         xml.onload = function () {
             server.post();
         }
         xml.open('POST', 'users');
-        xml.send();
+        xml.send(1);
     })
 }
 
@@ -97,34 +95,23 @@ function addSubmitButton() {
     submit.addEventListener('click', server.checkIfCanLogIn);
 }
 
-// function registerToEvent(name, user) {
-//     const ul = document.getElementById('events');
-//     const li = document.createElement('li');
-//     li.textContent = name;
-//     ul.appendChild(li);
-//     console.log(user.events);
-//     user.events.push(name);
-//     console.log(user.events);
-//     console.log(user);
-// }
-
+counter = 0;
 class User {
     constructor(userName, passWord) {
         this.userName = userName;
         this.passWord = passWord;
         this.events = [];
+        this.id = function(){
+            counter++;
+            return counter;
+        }();
     }
-
-    // addEvent(eventName) {
-    //     this.events.push(eventName);
-    // }
 }
 
 function addEventButton() {
     const btnAddEvent = document.getElementById("btnAddEvent");
-    // btnAddEvent.addEventListener("click", addEventToList);
     btnAddEvent.addEventListener("click", () => {
-        const xml = new FAJAX();
+        const xml = new Fajax();
         xml.onload = function () {
             server.post();
         }
@@ -134,21 +121,6 @@ function addEventButton() {
 }
 
 let promt;
-// function addEventToList() {
-//     promt = prompt('Enter the event: ')
-//     let listPart = document.createElement("li");
-//     listPart.textContent = promt;
-
-//     DB.events.push(promt);
-//     let eventList = document.getElementById("eventList");
-//     let buttonForReg = document.createElement("button");
-//     buttonForReg.setAttribute("class", "hidden");
-//     buttonForReg.textContent = 'register to event '
-//     listPart.appendChild(buttonForReg);
-//     eventList.appendChild(listPart);
-
-//     listPart.addEventListener("click",showButton);
-// }
 
 function showButton(event) {
     if (event.target.children[0]?.classList.length > 0) {
@@ -166,12 +138,8 @@ function showButton(event) {
     })
 }
 
-// const m = new FAJAX();
-// m.onload = function () {
-//     let ex = new User('b', 'b');
-//     DB.users.push(ex);
-//     server.put('b', 'b', 'user name', 'itay', 'users');
-//     console.log(DB);
-// }
-// m.open('PUT', 'users');
-// m.send();
+l = new User('b', 'b');
+console.log(l);
+
+m = new User('m', 'm');
+console.log(m);
