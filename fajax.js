@@ -1,6 +1,7 @@
 class Fajax {
     constructor() {
         this.onload = null;
+        this.response= null;
     }
 
     open(method, url) {
@@ -8,7 +9,6 @@ class Fajax {
         this.url = url;
     }
     send(id = null) {
-        console.log(id)
         this.id = id;
         if (this.method === 'GET') {
             this.response = server.get(this.url);
@@ -16,6 +16,7 @@ class Fajax {
 
         } else if (this.method === 'POST') {
             this.response = server.post(this.url,this.id);
+            this.response = server.get(this.url,this.id);
             return this.onload();
 
         } else if (this.method === 'PUT') {

@@ -1,6 +1,4 @@
 // use lcalStroage (getitem, setItem, removeitem)
-
-
 localStorage.setItem('usersArr', JSON.stringify([]));
 localStorage.setItem('eventsArr', JSON.stringify(['Eyal']));
 

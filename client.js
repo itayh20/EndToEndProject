@@ -125,7 +125,7 @@ function addEventButton() {
             server.post();
         }
         xml.open('POST', 'events');
-        xml.send();
+        xml.send('addButton');
     });
 }
 let promt;
@@ -152,12 +152,13 @@ function showButton(event) {
     }
 
     event.target.children[0]?.addEventListener('click',  () => {
+        addEventToUser();
         const xml = new Fajax();
         xml.onload = function () {
-            server.post("events", "addEvent");
+            server.post();
         }
-        xml.open('POST');
-        xml.send();
+        xml.open('POST',"events");
+        xml.send("addEvent");
     })
 }
 function showEvenListOnScreen() {
@@ -171,10 +172,11 @@ var username;
 function addUser() {
     const xml = new Fajax();
     xml.onload = function () {
+        var users = xml.response;
         username = document.getElementById('username').value;
         let password = document.getElementById('password').value;
-        DB.users.push(new User(username, password));
-        localStorage.setItem("usersArr", JSON.stringify(DB.users));
+        users.push(new User(username, password));
+        localStorage.setItem("usersArr", JSON.stringify(users));
         movePage('logIn');
         deletePage(window.location.hash.substring(1));
     }
@@ -186,12 +188,13 @@ function addEventToUser() {
     const xml = new Fajax();
     var specificID;
     xml.onload = function () {
+        var users = xml.response;
+        console.log(users);
         for (let i = 0; i < DB.users.length; i++) {
             if (DB.users[i].userName === username) {
                 specificID = DB.users[i].id;
             }
         }
-        console.log(DB.users[specificID - 1].events);
         DB.users[specificID - 1].events.push(promt);
     }
     xml.open('PUT', 'users');
@@ -260,7 +263,6 @@ function deleteEvent() {
 
 
 function checkIfCanLogIn(){
-    console.log('hi');
     const xml = new Fajax();
     xml.onload = function () {
         let bool = false;

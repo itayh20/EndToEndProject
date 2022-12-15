@@ -45,26 +45,19 @@ class Server {
     // add somthing to the DB
     // ! you can't createe buttons here and display them
     post(url,id) {
-        if (url === 'users') {
-            // let username = document.getElementById('username').value;
-            // let password = document.getElementById('password').value;
-            // DB.users.push(new User(username, password));
-            // localStorage.setItem("usersArr", JSON.stringify(DB.users));
-            // movePage('logIn');
-            // deletePage(window.location.hash.substring(1));
-        } else if (url === 'events' && id === null) {
+    
+        if (url === 'events' && id === 'addButton') {
             addButtonsForAddingEvents();
         } else if (url === "events" && id === "addEvent"){
             DB.events.push(promt);
-            console.log(DB.events);
-            showEvenListOnScreen();
+            const paragraf = document.getElementById('myEvenP');
+            paragraf.textContent = DB.events;
         }
     }
 
     // update somthing in the DB
     put(putUserName, putPassword, change, changeValue, url) {
         if (url === 'users') {
-            console.log('hi');
             for (let i = 0; i < DB.users.length; i++) {
                 if ((DB.users[i].userName === putUserName) &&
                     (DB.users[i].passWord === putPassword)) {
