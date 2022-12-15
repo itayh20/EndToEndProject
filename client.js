@@ -119,8 +119,21 @@ function addEventButton() {
         xml.send();
     });
 }
-
 let promt;
+function addButtonsForAddingEvents() {
+    promt = prompt('Enter the event: ')
+    let listPart = document.createElement("li");
+    listPart.textContent = promt;
+
+    let eventList = document.getElementById("eventList");
+    let buttonForReg = document.createElement("button");
+    buttonForReg.setAttribute("class", "hidden");
+    buttonForReg.textContent = 'register to event '
+    listPart.appendChild(buttonForReg);
+    eventList.appendChild(listPart);
+    listPart.addEventListener("click", showButton);
+}
+
 
 function showButton(event) {
     if (event.target.children[0]?.classList.length > 0) {
@@ -129,14 +142,21 @@ function showButton(event) {
         event.target.children[0]?.classList.add('hidden');
     }
 
-    event.target.children[0]?.addEventListener('click', function () {
-        const ul = document.getElementById('events');
-        const li = document.createElement('li');
-
-        li.textContent = promt;
-        ul.appendChild(li);
+    event.target.children[0]?.addEventListener('click',  () => {
+        const xml = new Fajax();
+        xml.onload = function () {
+            server.post("events", "addEvent");
+        }
+        xml.open('POST');
+        xml.send();
     })
 }
+function showEvenListOnScreen() {
+    // const myDiv = document.getElementById('events');
+    const paragraf = document.getElementById('myEvenP');
+    paragraf.innerHTML = DB.events;
+}
+
 
 l = new User('b', 'b');
 console.log(l);

@@ -46,29 +46,19 @@ class Server {
 
     // ! you can't createe buttons here and display them
     post(url,id) {
-        console.log(id)
         if (url === 'users') {
-            console.log(url);
             let username = document.getElementById('username').value;
             let password = document.getElementById('password').value;
             DB.users.push(new User(username, password));
             localStorage.setItem("usersArr", JSON.stringify(DB.users));
             movePage('logIn');
             deletePage(window.location.hash.substring(1));
-        } else if (url === 'events') {
-            promt = prompt('Enter the event: ')
-            let listPart = document.createElement("li");
-            listPart.textContent = promt;
-
+        } else if (url === 'events' && id === null) {
+            addButtonsForAddingEvents();
+        } else if (url === "events" && id === "addEvent"){
             DB.events.push(promt);
-            let eventList = document.getElementById("eventList");
-            let buttonForReg = document.createElement("button");
-            buttonForReg.setAttribute("class", "hidden");
-            buttonForReg.textContent = 'register to event '
-            listPart.appendChild(buttonForReg);
-            eventList.appendChild(listPart);
-
-            listPart.addEventListener("click", showButton);
+            console.log(DB.events);
+            showEvenListOnScreen();
         }
     }
 
@@ -102,21 +92,6 @@ class Server {
 
     }
 
-
-    // for (let i = 0; i < DB.users.length; i++) {
-    //     if ((DB.users[i].userName === putUserName) &&
-    //         (DB.users[i].passWord === putPassword)) {
-    //         // if (change === "user name") {
-    //         //     DB.users[i].userName = changeValue;
-    //         } else if (change === "password") {
-    //             DB.users[i].password = changeValue;
-    //         }
-    //         else if (change === "events") {
-    //             DB.users[i].events = changeValue;
-    //         }
-    //     }
-
-
     // delete somthing in the DB
     delete(putUserName, putPassword) {
         for (var i = 0; i < DB.users.length; i++) {
@@ -147,5 +122,6 @@ class Server {
         }
     }
 }
+
 
 const server = new Server();

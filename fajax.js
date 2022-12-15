@@ -8,7 +8,6 @@ class Fajax {
         this.url = url;
     }
     send(id = null, value=null) {
-        console.log(id)
         this.id = id;
         if (this.method === 'GET') {
             this.response = server.get(this.url);
@@ -27,6 +26,13 @@ class Fajax {
         }
     }
 }
+
+// const xml = new Fajax();
+        // xml.onload = function () {
+        //     server.post();
+        // }
+        // xml.open('POST', 'events');
+        // xml.send();
 
 
 // x = new XMLHttpRequest();
