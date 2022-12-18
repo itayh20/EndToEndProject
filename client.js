@@ -244,9 +244,10 @@ function deleteUser() {
     const xml = new Fajax();
     const deleteUserId = prompt('ID of the delete user');
     xml.onload = function () {
-        for (let i = 0; i < DB.users.length; i++) {
-            if (DB.users[i].id === Number(deleteUserId)) {
-                DB.users.splice(i, 1);
+        var users = xml.response;
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].id === Number(deleteUserId)) {
+                users.splice(i, 1);
             }
         }
     }
@@ -259,18 +260,19 @@ function deleteEventForUser() {
     const userID = prompt('ID of the user');
     const event = prompt('Event to delete');
     xml.onload = function () {
-        for (let i = 0; i < DB.users.length; i++) {
-            if (DB.users[i].id === Number(userID)) {
+        var users = xml.response;
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].id === Number(userID)) {
                 var para = document.getElementById('myEvenP');
-                var index = DB.users[i].events.indexOf(event);
-                DB.users[i].events.splice(index, 1);
+                var index = users[i].events.indexOf(event);
+                users[i].events.splice(index, 1);
                 console.log(para);
                 para.textContent = '';
-                para.textContent += DB.users[i].events + ','
+                para.textContent += users[i].events + ','
             }
         }
     }
-    xml.open('DELETE', 'events');
+    xml.open('DELETE', 'users');
     xml.send(Number(userID));
 }
 
@@ -280,12 +282,13 @@ function deleteEventForUser() {
 function checkIfCanLogIn() {
     const xml = new Fajax();
     xml.onload = function () {
+        var users = xml.response;
         let bool = false;
         let num;
         const usernameCheck = document.getElementById('username').value;
         const passwordCheck = document.getElementById('password').value;
-        for (let i = 0; i < DB.users.length; i++) {
-            if (DB.users[i].userName === usernameCheck && DB.users[i].passWord === passwordCheck) {
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].userName === usernameCheck && users[i].passWord === passwordCheck) {
                 bool = true;
                 num = i;
                 break;
@@ -293,7 +296,7 @@ function checkIfCanLogIn() {
         }
         if (bool) {
             deletePage(window.location.hash.substring(1));
-            movePage('app', DB.users[num]);
+            movePage('app', users[num]);
         } else {
             alert('not')
         }
