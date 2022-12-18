@@ -43,15 +43,20 @@ class Server {
     }
 
     // add somthing to the DB
-    // ! you can't createe buttons here and display them
-    post(url,id) {
-    
+    post(url, id) {
         if (url === 'events' && id === 'addButton') {
             addButtonsForAddingEvents();
-        } else if (url === "events" && id === "addEvent"){
+        } else if (url === "events" && id === "addEvent") {
             DB.events.push(promt);
             const paragraf = document.getElementById('myEvenP');
-            paragraf.textContent = DB.events;
+            for (let i = 0; i < DB.users.length; i++) {
+                if (DB.users[i].userName === username) {
+                    for (let j = 0; j < DB.users[i].events.length; j++) {
+                        paragraf.textContent += DB.users[i].events[j] + ','
+                    }
+                }
+            }
+            // paragraf.textContent = DB.events;
         }
     }
 

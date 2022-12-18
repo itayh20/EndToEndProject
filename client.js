@@ -99,7 +99,6 @@ function addSendEvent() {
 
 function addSubmitButton() {
     const submit = document.getElementById('submit');
-    // submit.addEventListener('click', server.checkIfCanLogIn);
     submit.addEventListener('click', checkIfCanLogIn);
 
 }
@@ -128,6 +127,7 @@ function addEventButton() {
         xml.send('addButton');
     });
 }
+
 let promt;
 function addButtonsForAddingEvents() {
     promt = prompt('Enter the event: ')
@@ -137,12 +137,11 @@ function addButtonsForAddingEvents() {
     let eventList = document.getElementById("eventList");
     let buttonForReg = document.createElement("button");
     buttonForReg.setAttribute("class", "hidden");
-    buttonForReg.textContent = 'register to event '
+    buttonForReg.textContent = 'register to event ';
     listPart.appendChild(buttonForReg);
     eventList.appendChild(listPart);
     listPart.addEventListener("click", showButton);
 }
-
 
 function showButton(event) {
     if (event.target.children[0]?.classList.length > 0) {
@@ -150,21 +149,28 @@ function showButton(event) {
     } else {
         event.target.children[0]?.classList.add('hidden');
     }
-
-    event.target.children[0]?.addEventListener('click',  () => {
+    event.target.children[0]?.addEventListener('click', () => {
         addEventToUser();
         const xml = new Fajax();
         xml.onload = function () {
             server.post();
         }
-        xml.open('POST',"events");
+        xml.open('POST', "events");
         xml.send("addEvent");
-    })
+    });
 }
+
+
 function showEvenListOnScreen() {
-    // const myDiv = document.getElementById('events');
-    const paragraf = document.getElementById('myEvenP');
-    paragraf.innerHTML = DB.events;
+    console.log('hi');
+    var paragraf = document.getElementById('myEvenP');
+    const xml = new Fajax();
+    xml.onload = function () {
+        var events = xml.response;
+        paragraf.innerHTML = events;
+    }
+    xml.open('POST', "events");
+    xml.send();
 }
 
 
@@ -190,12 +196,13 @@ function addEventToUser() {
     xml.onload = function () {
         var users = xml.response;
         console.log(users);
-        for (let i = 0; i < DB.users.length; i++) {
-            if (DB.users[i].userName === username) {
-                specificID = DB.users[i].id;
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].userName === username) {
+                specificID = users[i].id;
             }
         }
-        DB.users[specificID - 1].events.push(promt);
+        console.log(users);
+        users[specificID - 1].events.push(promt);
     }
     xml.open('PUT', 'users');
     xml.send(specificID);
@@ -208,21 +215,23 @@ function buttonsForAppPage() {
     const deleteUserButton = document.getElementById('deleteUserButton');
     deleteUserButton.addEventListener('click', deleteUser);
     const deleteEventButton = document.getElementById('deleteEventButton');
-    deleteEventButton.addEventListener('click',()=> deleteEvent);
+    deleteEventButton.addEventListener('click', deleteEventForUser);
 }
 
 function changeUser() {
+    console.log('moooooooooooooooo');
     const xml = new Fajax();
     const change = prompt('What you want to change');
     const changeValue = prompt('change value');
     const idOfChange = prompt('id of change');
     xml.onload = function () {
-        for (let i = 0; i < DB.users.length; i++) {
-            if ((DB.users[i].id === this.id)) {
+        var users = xml.response;
+        for (let i = 0; i < users.length; i++) {
+            if ((users[i].id === this.id)) {
                 if (change === "user name") {
-                    DB.users[i].userName = changeValue;
+                    users[i].userName = changeValue;
                 } else if (change === "password") {
-                    DB.users[i].passWord = changeValue;
+                    users[i].passWord = changeValue;
                 }
             }
         }
@@ -245,24 +254,30 @@ function deleteUser() {
     xml.send(Number(deleteUserId));
 }
 
-function deleteEvent() {
+function deleteEventForUser() {
     const xml = new Fajax();
-    const deleteEvent = prompt('ID of the delete event');
+    const userID = prompt('ID of the user');
+    const event = prompt('Event to delete');
     xml.onload = function () {
-        for (let i = 0; i < DB.events.length; i++) {
-            if (DB.events[i] === deleteEvent) {
-                DB.events.splice(i, 1);
+        for (let i = 0; i < DB.users.length; i++) {
+            if (DB.users[i].id === Number(userID)) {
+                var para = document.getElementById('myEvenP');
+                var index = DB.users[i].events.indexOf(event);
+                DB.users[i].events.splice(index, 1);
+                console.log(para);
+                para.textContent = '';
+                para.textContent += DB.users[i].events + ','
             }
         }
     }
     xml.open('DELETE', 'events');
-    xml.send();
+    xml.send(Number(userID));
 }
 
 
 
 
-function checkIfCanLogIn(){
+function checkIfCanLogIn() {
     const xml = new Fajax();
     xml.onload = function () {
         let bool = false;
